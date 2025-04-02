@@ -1,8 +1,12 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Load Tests
 
 permissions: {}
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+  release:
+    types: [published]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -50,7 +54,6 @@ jobs:
           if-no-files-found: error
 
   old-load-test:
-    if: github.event_name == 'pull_request'
     needs:
       - prepare-images
     outputs:
@@ -132,7 +135,6 @@ jobs:
         uses: ./.github/actions/kyverno-logs
 
   load-test:
-    if: github.event_name == 'pull_request'
     needs:
       - prepare-images
       - old-load-test
@@ -220,7 +222,6 @@ jobs:
         uses: ./.github/actions/kyverno-logs
 
   scale-test:
-    if: github.event_name == 'pull_request'
     needs:
       - define-matrix
       - prepare-images
