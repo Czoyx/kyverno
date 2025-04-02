@@ -53,6 +53,7 @@ jobs:
           name: kyverno.tar
           path: kyverno.tar
           retention-days: 1
+          overwrite: true
           if-no-files-found: error
 
   prepare-cli:
