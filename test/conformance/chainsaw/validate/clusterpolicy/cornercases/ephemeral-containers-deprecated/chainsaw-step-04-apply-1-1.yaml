@@ -7,6 +7,3 @@ spec:
   containers:
   - image: bar.io/busybox:1.35
     name: busybox
-  ephemeralContainers:
-  - image: bar.io/busybox:1.35
-    name: debugger

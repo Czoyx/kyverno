@@ -20,11 +20,3 @@ spec:
     - 1d
     securityContext:
       privileged: true
-  ephemeralContainers:
-  - name: nginx3
-    image: nginx
-    args:
-    - sleep
-    - 1d
-    securityContext:
-      privileged: true

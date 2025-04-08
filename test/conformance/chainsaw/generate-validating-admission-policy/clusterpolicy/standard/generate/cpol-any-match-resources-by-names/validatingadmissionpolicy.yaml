@@ -23,7 +23,6 @@ spec:
       - staging
       resources:
       - pods
-      - pods/ephemeralcontainers
     - apiGroups:
       - apps
       apiVersions:

@@ -13,12 +13,3 @@ spec:
     securityContext:
       seLinuxOptions:
         type: foo
-  ephemeralContainers:
-  - name: nginx2
-    image: nginx
-    args:
-    - sleep
-    - 1d
-    securityContext:
-      seLinuxOptions:
-        type: bar

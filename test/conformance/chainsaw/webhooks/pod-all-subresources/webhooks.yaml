@@ -19,7 +19,6 @@ webhooks:
       (contains(@,'pods/status')): true
       (contains(@,'pods/log')): true
       (contains(@,'pods/attach')): true
-      (contains(@,'pods/ephemeralcontainers')): true
       (contains(@,'pods/eviction')): true
       (contains(@,'pods/exec')): true
       (contains(@,'pods/portforward')): true
