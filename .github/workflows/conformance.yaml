@@ -929,7 +929,6 @@ jobs:
       - validate
       - verify-manifests
       - verifyImages
-      - webhook-configurations
       - webhooks
       - custom-sigstore
       - monitor-helm-secret-size
@@ -964,7 +963,6 @@ jobs:
       - validate
       - verify-manifests
       - verifyImages
-      - webhook-configurations
       - webhooks
       - custom-sigstore
       - monitor-helm-secret-size
