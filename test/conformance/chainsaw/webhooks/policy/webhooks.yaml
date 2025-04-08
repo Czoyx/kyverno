@@ -18,4 +18,5 @@ webhooks:
     - UPDATE
     resources:
     - '*'
+    - pods/ephemeralcontainers
     scope: 'Namespaced'
