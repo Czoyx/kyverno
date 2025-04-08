@@ -47,3 +47,4 @@ spec:
         - check:
             ($error != null): true
         file: deployment-fail.yaml
+  # cleanup context deadline exceeded

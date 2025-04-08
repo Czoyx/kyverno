@@ -24,7 +24,7 @@ spec:
         file: resource01.yaml
     - assert:
         file: resource01-mutated.yaml
-  - name: step-03
+  - name: step-03  # cleanup context deadline exceeded
     try:
     - apply:
         file: resource02.yaml

@@ -18,7 +18,7 @@ spec:
         bindings:
         - name: name
           value: latest-check-no-exclusion
-  - name: step-02
+  - name: step-02  # cleanup context deadline exceeded
     try:
     - apply:
         expect:
@@ -32,3 +32,4 @@ spec:
         file: bad-pod-2.yaml
     - apply:
         file: good-pod.yaml
+  # cleanup context deadline exceeded

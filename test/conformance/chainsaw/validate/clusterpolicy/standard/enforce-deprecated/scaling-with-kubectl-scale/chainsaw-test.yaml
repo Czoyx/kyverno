@@ -4,7 +4,7 @@ metadata:
   name: scaling-with-kubectl-scale
 spec:
   steps:
-  - name: step-01
+  - name: step-01  # cleanup context deadline exceeded
     try:
     - apply:
         file: chainsaw-step-01-apply-1-1.yaml

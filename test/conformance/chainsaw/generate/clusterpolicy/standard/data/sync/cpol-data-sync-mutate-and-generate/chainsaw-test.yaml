@@ -57,7 +57,7 @@ spec:
         content: kubectl get po -A | awk '$5>0' | grep -q 'kyverno-admission-controller'
         check:
           ($error != null): true
-  - name: step-12
+  - name: step-12 # cleanup context deadline exceeded
     try:
     - apply:
         file: pod5.yaml

@@ -32,7 +32,7 @@ spec:
     try:
     - apply:
         file: policy-update.yaml
-  - name: step-05
+  - name: step-05  # cleanup context deadline exceeded
     try:
     - apply:
         file: chainsaw-step-05-apply-1-1.yaml

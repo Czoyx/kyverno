@@ -18,7 +18,7 @@ spec:
         bindings:
         - name: name
           value: disallow-host-port
-  - name: step-02
+  - name: step-02  # cleanup context deadline exceeded
     try:
     - apply:
         file: pod-pass.yaml
@@ -27,3 +27,4 @@ spec:
         - check:
             ($error != null): true
         file: pod-fail.yaml
+  # cleanup context deadline exceeded

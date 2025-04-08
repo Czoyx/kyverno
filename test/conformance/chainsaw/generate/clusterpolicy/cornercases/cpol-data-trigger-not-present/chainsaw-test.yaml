@@ -35,7 +35,7 @@ spec:
     try:
     - script:
         content: "kubectl create ns cpol-data-trigger-not-present-ns --as nancy"
-  - name: step-05
+  - name: step-05 # background controller permission
     try:
     - assert:
         file: generated.yaml
