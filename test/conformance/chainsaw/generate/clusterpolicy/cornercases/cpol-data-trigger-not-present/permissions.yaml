@@ -23,5 +23,9 @@ rules:
   resources:
   - rolebindings
   verbs:
-  - get
-  - list
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - delete
