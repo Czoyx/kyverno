@@ -256,25 +256,6 @@ jobs:
           shard-index: ${{ matrix.shard-index }}
           shard-count: 8
 
-  generate-validating-admission-policy:
-    runs-on: ubuntu-latest
-    permissions:
-      packages: read
-    strategy:
-      fail-fast: false
-      matrix:
-        k8s-version: [ v1.21.14 ]
-    needs: [ prepare-images ]
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - uses: ./.github/actions/run-tests
-        with:
-          k8s-version: ${{ matrix.k8s-version }}
-          kind-config: ./scripts/config/kind/vap-v1beta1.yaml
-          kyverno-configs: standard,generate-validating-admission-policy
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tests-path: generate-validating-admission-policy
-
   globalcontext:
     runs-on: ubuntu-latest
     permissions:
@@ -447,25 +428,6 @@ jobs:
           shard-index: ${{ matrix.shard-index }}
           shard-count: 6
 
-  validating-admission-policy-reports:
-    runs-on: ubuntu-latest
-    permissions:
-      packages: read
-    strategy:
-      fail-fast: false
-      matrix:
-        k8s-version: [ v1.21.14 ]
-    needs: [ prepare-images ]
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - uses: ./.github/actions/run-tests
-        with:
-          k8s-version: ${{ matrix.k8s-version }}
-          kind-config: ./scripts/config/kind/vap-v1beta1.yaml
-          kyverno-configs: standard,validating-admission-policy-reports
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tests-path: validating-admission-policy-reports
-
   verify-manifests:
     runs-on: ubuntu-latest
     permissions:
@@ -519,8 +481,7 @@ jobs:
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
-          kind-config: ./scripts/config/kind/vap-v1beta1.yaml
-          kyverno-configs: standard,generate-validating-admission-policy
+          kyverno-configs: standard
           token: ${{ secrets.GITHUB_TOKEN }}
           tests-path: webhook-configurations
 
@@ -556,8 +517,7 @@ jobs:
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
-          kind-config: ./scripts/config/kind/vap-v1beta1.yaml
-          kyverno-configs: standard,sigstore-custom-tuf
+          kyverno-configs: standard
           token: ${{ secrets.GITHUB_TOKEN }}
           tests-path: sigstore-custom-tuf
 
@@ -977,7 +937,6 @@ jobs:
       - filter
       - force-failure-policy-ignore
       - generate
-      - generate-validating-admission-policy
       - globalcontext
       - lease
       - mutate
@@ -987,7 +946,6 @@ jobs:
       - reports
       - ttl
       - validate
-      - validating-admission-policy-reports
       - verify-manifests
       - verifyImages
       - webhook-configurations
@@ -1014,7 +972,6 @@ jobs:
       - filter
       - force-failure-policy-ignore
       - generate
-      - generate-validating-admission-policy
       - globalcontext
       - lease
       - mutate
@@ -1024,7 +981,6 @@ jobs:
       - reports
       - ttl
       - validate
-      - validating-admission-policy-reports
       - verify-manifests
       - verifyImages
       - webhook-configurations
