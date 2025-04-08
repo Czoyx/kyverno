@@ -16,7 +16,7 @@ spec:
           annotations:
             kyverno.io/clusterroles: '{{ request.clusterRoles | sort(@) | to_string(@)
               }}'
-            kyverno.io/created-by: '{{ request.userInfo | to_string(@) }}'
+            kyverno.io/created-by: '{{ request.userInfo.{username: username, groups: groups} | to_string(@) }}'
             kyverno.io/roles: '{{ request.roles | sort(@) | to_string(@) }}'
     name: add-userinfo
     preconditions:

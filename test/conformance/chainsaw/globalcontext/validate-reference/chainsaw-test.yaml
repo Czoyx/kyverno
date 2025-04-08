@@ -10,4 +10,4 @@ spec:
             expect:
               - check:
                   ($error): |-
-                    ClusterPolicy.kyverno.io "cpol-gctx-validate-reference" is invalid: spec.rules[0].context[0].globalReference.name: Required value
+                    ClusterPolicy.kyverno.io "cpol-gctx-validate-reference" is invalid: spec.rules.context.globalReference.name: Required value
