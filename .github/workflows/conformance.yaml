@@ -4,11 +4,7 @@ name: Conformance tests
 
 permissions: {}
 
-on:
-  pull_request:
-    branches:
-      - "main"
-      - "release*"
+on: workflow_dispatch
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Setup caches
         uses: ./.github/actions/setup-caches
         timeout-minutes: 5
@@ -37,18 +33,19 @@ jobs:
           set -e
           VERSION=${{ github.ref_name }} make docker-save-image-all
       - name: upload images archive
-        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: kyverno.tar
           path: kyverno.tar
           retention-days: 1
+          overwrite: true
           if-no-files-found: error
 
   prepare-cli:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Setup caches
         uses: ./.github/actions/setup-caches
         timeout-minutes: 5
@@ -66,7 +63,7 @@ jobs:
           set -e
           VERSION=${{ github.ref_name }} make build-cli
       - name: upload images archive
-        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: kubectl-kyverno
           path: cmd/cli/kubectl-kyverno/kubectl-kyverno
@@ -80,10 +77,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -98,10 +95,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -116,10 +113,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -134,10 +131,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -152,10 +149,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -170,10 +167,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -188,11 +185,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
         shard-index: [0,1]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -209,10 +206,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -227,10 +224,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -245,11 +242,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
         shard-index: [0,1,2,3,4,5,6,7]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -266,10 +263,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -285,10 +282,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -303,10 +300,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -321,11 +318,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
         shard-index: [0,1,2]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -342,10 +339,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -360,10 +357,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -379,10 +376,10 @@ jobs:
       fail-fast: false
       matrix:
         kyverno-configs: [ standard, default, 'standard,force-failure-policy-ignore' ]
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -397,11 +394,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
         shard-index: [0,1]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -418,10 +415,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -436,11 +433,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
         shard-index: [0,1,2,3,4,5]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -457,10 +454,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -476,10 +473,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -494,11 +491,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
         shard-index: [0,1]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -515,10 +512,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -534,10 +531,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -552,10 +549,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
     needs: [ prepare-images ]
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - uses: ./.github/actions/run-tests
         with:
           k8s-version: ${{ matrix.k8s-version }}
@@ -571,26 +568,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version:
-          - v1.28.x
-          - v1.29.x
-          - v1.30.x
+        k8s-version: [ v1.21.14, v1.32.2 ]
         tests:
           - custom-sigstore
     needs: prepare-images
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       # install tools
       - name: Install helm
         id: helm
-        uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4.2.0
+        uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
       - name: Install crane
         uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
       - name: Install Cosign
-        uses: sigstore/cosign-installer@4959ce089c160fddf62f7b42464195ba1a56d382 # v3.6.0
+        uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
       - name: Install chainsaw
-        uses: kyverno/action-install-chainsaw@d311eacde764f806c9658574ff64c9c3b21f8397 # v0.2.11
+        uses: kyverno/action-install-chainsaw@f2b47b97dc889c12702113753d713f01ec268de5 # v0.2.12
         with:
           verify: true
       # create cluster
@@ -608,7 +602,7 @@ jobs:
           kubectl -n tuf-system get secrets tuf-root -oyaml | sed 's/namespace: .*/namespace: kyverno/' | kubectl create -f -
       # deploy kyverno
       - name: Download kyverno images archive
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
         with:
           name: kyverno.tar
       - name: Load kyverno images archive in kind cluster
@@ -653,35 +647,32 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version:
-          - v1.28.13
-          - v1.29.8
-          - v1.30.4
-          - v1.31.0
+        k8s-version: [ v1.21.14, v1.32.2 ]
         shard-index: [0,1,2,3,4,5,6,7,8,9,10,11]
     needs:
       - prepare-images
       - prepare-cli
     steps:
       - name: Checkout kyverno/kyverno
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Checkout kyverno/policies
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           repository: kyverno/policies
           path: policies
+          ref: release-1.13
       # install tools
       - name: Install helm
         id: helm
-        uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4.2.0
+        uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
       - name: Install Cosign
-        uses: sigstore/cosign-installer@4959ce089c160fddf62f7b42464195ba1a56d382 # v3.6.0  
+        uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
       - name: Install chainsaw
-        uses: kyverno/action-install-chainsaw@d311eacde764f806c9658574ff64c9c3b21f8397 # v0.2.11
+        uses: kyverno/action-install-chainsaw@f2b47b97dc889c12702113753d713f01ec268de5 # v0.2.12
         with:
           verify: true
       - name: Download kyverno CLI archive
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
         with:
           name: kubectl-kyverno
       - name: Install Kyverno CLI
@@ -692,14 +683,15 @@ jobs:
           echo "$PWD/cmd/cli/kubectl-kyverno" >> $GITHUB_PATH
       # create cluster
       - name: Create kind cluster
-        uses: helm/kind-action@0025e74a8c7512023d06dc019c617aa3cf561fde # v1.10.0
+        uses: helm/kind-action@dda0770415bac9fc20092cacbc54aa298604d140 #v0.20.0
         with:
+          version: v0.27.0
           node_image: kindest/node:${{ matrix.k8s-version }}
           cluster_name: kind
           config: ./scripts/config/kind/default.yaml
       # deploy kyverno
       - name: Download kyverno images archive
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
         with:
           name: kyverno.tar
       - name: Load kyverno images archive in kind cluster
@@ -743,7 +735,7 @@ jobs:
     needs: prepare-images
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Setup caches
         uses: ./.github/actions/setup-caches
         timeout-minutes: 5
@@ -759,7 +751,7 @@ jobs:
           set -e
           make kind-create-cluster
       - name: Download kyverno images archive
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
         with:
           name: kyverno.tar
       - name: Load kyverno images archive in kind cluster
@@ -800,22 +792,23 @@ jobs:
     - prepare-cli
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       # install tools
       - name: Download kyverno CLI archive
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
         with:
           name: kubectl-kyverno
       - name: Install Cosign
-        uses: sigstore/cosign-installer@4959ce089c160fddf62f7b42464195ba1a56d382 # v3.6.0
+        uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
       - name: Install chainsaw
-        uses: kyverno/action-install-chainsaw@d311eacde764f806c9658574ff64c9c3b21f8397 # v0.2.11
+        uses: kyverno/action-install-chainsaw@f2b47b97dc889c12702113753d713f01ec268de5 # v0.2.12
         with:
           verify: true
       # create cluster
       - name: Create kind cluster
-        uses: helm/kind-action@0025e74a8c7512023d06dc019c617aa3cf561fde # v1.10.0
+        uses: helm/kind-action@dda0770415bac9fc20092cacbc54aa298604d140 #v0.20.0
         with:
+          version: v0.27.0
           node_image: kindest/node:v1.30.0
           cluster_name: kind
           config: ./scripts/config/kind/default.yaml
@@ -859,23 +852,24 @@ jobs:
     name: ${{ matrix.k8s-version.name }} - kyverno uninstall
     steps:
       - name: Checkout kyverno/kyverno
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Install helm
         id: helm
-        uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4.2.0
+        uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
       - name: Install Kubectl
         run: |
           set -e
           curl -LO "https://dl.k8s.io/release/${{ matrix.k8s-version.version }}/bin/linux/amd64/kubectl"
           sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
       - name: Create kind cluster
-        uses: helm/kind-action@0025e74a8c7512023d06dc019c617aa3cf561fde # v1.10.0
+        uses: helm/kind-action@dda0770415bac9fc20092cacbc54aa298604d140 #v0.20.0
         with:
+          version: v0.27.0
           node_image: kindest/node:${{ matrix.k8s-version.version }}
           cluster_name: kind
           config: ./scripts/config/kind/default.yaml
       - name: Download kyverno images archive
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
         with:
           name: kyverno.tar
       - name: Load kyverno images archive in kind cluster
@@ -922,24 +916,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        k8s-version: [ v1.28.13, v1.29.8, v1.30.4, v1.31.0 ]
-        kyverno-version: [ '3.2' ]
-    needs: [ prepare-images ]
+        k8s-version: [ v1.21.14, v1.32.2 ]
+        kyverno-version: ["3.3.7"]
+    needs: [prepare-images]
     steps:
-    - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
     - name: Install helm
       id: helm
-      uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4.2.0
+      uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
     # create cluster
     - name: Create kind cluster
-      uses: helm/kind-action@0025e74a8c7512023d06dc019c617aa3cf561fde # v1.10.0
+      uses: helm/kind-action@dda0770415bac9fc20092cacbc54aa298604d140 #v0.20.0
       with:
+        version: v0.27.0
         node_image: kindest/node:${{ matrix.k8s-version }}
         cluster_name: kind
         config: ./scripts/config/kind/default.yaml
     # deploy kyverno
     - name: Download kyverno images archive
-      uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+      uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
       with:
         name: kyverno.tar
     - name: Load kyverno images archive in kind cluster
