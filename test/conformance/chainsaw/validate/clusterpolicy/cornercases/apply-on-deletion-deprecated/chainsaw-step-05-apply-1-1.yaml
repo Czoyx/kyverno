@@ -7,7 +7,6 @@ metadata:
   name: podinfo
   namespace: apply-on-deletion-ns
 spec:
-  internalTrafficPolicy: Cluster
   ipFamilies:
   - IPv4
   ipFamilyPolicy: SingleStack
