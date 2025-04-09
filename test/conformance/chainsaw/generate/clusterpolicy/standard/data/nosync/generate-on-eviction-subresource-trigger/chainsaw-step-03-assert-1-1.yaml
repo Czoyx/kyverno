@@ -12,7 +12,7 @@ metadata:
     generate.kyverno.io/trigger-group: policy
     generate.kyverno.io/trigger-kind: Eviction
     generate.kyverno.io/trigger-namespace: test-generate-eviction
-    generate.kyverno.io/trigger-version: v1
+    generate.kyverno.io/trigger-version: v1beta1
     somekey: somevalue
   name: zk-kafka-address
   namespace: test-generate-eviction
