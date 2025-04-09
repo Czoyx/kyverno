@@ -7,25 +7,8 @@ metadata:
     rbac.kyverno.io/aggregate-to-admission-controller: "true"
 rules:
 - apiGroups:
-  - rbac.authorization.k8s.io
+  - '*'
   resources:
-  - clusterroles
-  - clusterrolebindings
+  - '*'
   verbs:
-  - get
-  - list
-  - watch
-  - create
-  - update
-  - delete
-- apiGroups:
-  - rbac.authorization.k8s.io
-  resources:
-  - rolebindings
-  verbs:
-    - get
-    - list
-    - watch
-    - create
-    - update
-    - delete
+  - '*'
